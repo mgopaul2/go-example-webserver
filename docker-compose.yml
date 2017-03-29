@@ -2,6 +2,6 @@ version: '3'
 
 services:
   server:
-    image: mgopaul/example-webserver
+    image: mgopaul/example-webserver:production
     ports:
       - "8080:8080"

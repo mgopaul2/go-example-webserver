@@ -4,7 +4,7 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t mgopaul/example-webserver .
+      - docker build -t mgopaul/example-webserver:$DRONE_COMMIT_SHA .
   test:
     image: docker
     volumes:
@@ -12,7 +12,7 @@ pipeline:
     commands:
       - docker kill test
       - docker rm test
-      - docker create --name test mgopaul/example-webserver
+      - docker create --name test mgopaul/example-webserver:$DRONE_COMMIT_SHA
       - docker cp ./test.sh test:/test.sh
       - docker start test /test.sh
 
@@ -24,11 +24,12 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker login -u mgopaul -p $PASS
-      - docker push mgopaul/example-webserver
+      - docker push mgopaul/example-webserver:$DRONE_COMMIT_SHA
   deploy:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker pull mgopaul/example-webserver
+      - docker pull mgopaul/example-webserver:$DRONE_COMMIT_SHA
+      - docker tag mgopaul/example-webserver:$DRONE_COMMIT_SHA mgopaul/example-webserver:latest
       - docker stack deploy -c ./docker-compose.yml example-webserver
