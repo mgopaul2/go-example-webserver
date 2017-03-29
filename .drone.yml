@@ -35,5 +35,5 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker pull mgopaul/example-webserver:$DRONE_COMMIT_SHA
-      - docker tag mgopaul/example-webserver:$DRONE_COMMIT_SHA mgopaul/example-webserver:latest
+      - docker tag mgopaul/example-webserver:$DRONE_COMMIT_SHA mgopaul/example-webserver:production
       - docker stack deploy -c ./docker-compose.yml example-webserver
