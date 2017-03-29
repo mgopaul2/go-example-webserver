@@ -10,7 +10,12 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run mgopaul/example-webserver /test.sh
+      - docker kill test
+      - docker rm test
+      - docker create --name test jumalcapgemini/example-webserver
+      - docker cp ./test.sh test:/test.sh
+      - docker start test /test.sh
+
   push:
     image: docker
     environment:
