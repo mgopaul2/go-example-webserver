@@ -10,6 +10,8 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
+      - docker kill test
+      - docker rm test
       - docker create --name test mgopaul/example-webserver
       - docker cp ./test.sh test:/test.sh
       - docker start test /test.sh
