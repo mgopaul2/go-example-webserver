@@ -12,7 +12,7 @@ pipeline:
     commands:
       - docker kill test
       - docker rm test
-      - docker create --name test jumalcapgemini/example-webserver
+      - docker create --name test mgopaul/example-webserver
       - docker cp ./test.sh test:/test.sh
       - docker start test /test.sh
 
